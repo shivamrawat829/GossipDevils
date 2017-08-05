@@ -1,10 +1,8 @@
 package com.example.shubhamr.gossipdevils;
 
-import android.content.SharedPreferences;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
@@ -12,7 +10,6 @@ public class ChattingSection extends AppCompatActivity {
 
     EditText message;
     ImageButton send,upload;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,15 +20,12 @@ public class ChattingSection extends AppCompatActivity {
         send = (ImageButton) findViewById(R.id.send);
         upload = (ImageButton) findViewById(R.id.upload);
 
-
-
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
             }
         });
-
 
 
         upload.setOnClickListener(new View.OnClickListener() {

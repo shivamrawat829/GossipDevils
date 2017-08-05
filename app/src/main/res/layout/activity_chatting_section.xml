@@ -2,10 +2,10 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:padding="2dp"
     tools:context="com.example.shubhamr.gossipdevils.ChattingSection">
-
 
     <EditText
         android:id="@+id/messagetext"
@@ -15,7 +15,7 @@
         android:layout_centerHorizontal="true"
         android:ems="10"
         android:inputType="textPersonName"
-        android:text="Type ur message"
+        android:text="@string/chat_text_hint"
         android:visibility="visible" />
 
     <ImageButton

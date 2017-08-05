@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "796816486013",
+    "firebase_url": "https://gossipdevils-7e9d1.firebaseio.com",
+    "project_id": "gossipdevils-7e9d1",
+    "storage_bucket": "gossipdevils-7e9d1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:796816486013:android:421652ffead44f18",
+        "android_client_info": {
+          "package_name": "com.example.shubhamr.gossipdevils"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "796816486013-vat36noqct827kms8tv56jcc34mggeho.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.shubhamr.gossipdevils",
+            "certificate_hash": "8bd73695ddff737b83fb0b0e39bafead7a6ab2ff"
+          }
+        },
+        {
+          "client_id": "796816486013-6s8rt19oum5miiof8cqh7u7n30pq4non.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA06YE3KvzB8MKCU6Zg1eJWrZLmUVxUnww"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "796816486013-6s8rt19oum5miiof8cqh7u7n30pq4non.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -21,7 +21,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".Register" />
-        <activity android:name=".ChattingSection"></activity>
+        <activity android:name=".ChattingSection">
+
+
+        </activity>
+
+
     </application>
 
 </manifest>

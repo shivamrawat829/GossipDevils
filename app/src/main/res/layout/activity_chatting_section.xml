@@ -14,8 +14,8 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:ems="10"
-        android:inputType="textPersonName"
-        android:text="@string/chat_text_hint"
+        android:hint="Type ur message"
+        android:inputType="none"
         android:visibility="visible" />
 
     <ImageButton

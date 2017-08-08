@@ -46,12 +46,12 @@ public class ChattingSection extends AppCompatActivity {
         });
 
         // Do animation start
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+      /*  LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         ImageView iv = (ImageView) inflater.inflate(R.layout.iv_refresh, null);
         Animation rotation = AnimationUtils.loadAnimation(this, R.anim.rotate_refresh);
         rotation.setRepeatCount(Animation.INFINITE);
         iv.startAnimation(rotation);
-        item.setActionView(iv);
+        item.setActionView(iv);*/
 
     }
 

@@ -17,7 +17,6 @@ public class UpdateTask extends AsyncTask<Void, Void, Void> {
         try {
             // Set a time to simulate a long update process.
             Thread.sleep(4000);
-
             return null;
 
         } catch (Exception e) {

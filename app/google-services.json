@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "796816486013-j6hg292t9ke7t61mbafkvovlorvj9s47.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.shubhamr.gossipdevils",
+            "certificate_hash": "ecb71fa0ecd016e72e1c9ff35cf127a33467d39d"
+          }
+        },
+        {
           "client_id": "796816486013-vat36noqct827kms8tv56jcc34mggeho.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -23,10 +24,11 @@ public class MainActivity extends AppCompatActivity {
     Button chat;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-
+String mCurrentUserId;
     private DatabaseReference mDatabase;
      public DataSnapshot f;
     private String TAG="MainActivity";
+    TextView currentuser;
 
     @Override
     protected void onStart() {
@@ -46,7 +48,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        currentuser = (TextView) findViewById(R.id.currentuser);
+
         mAuth = FirebaseAuth.getInstance();
+        mCurrentUserId = mAuth.getCurrentUser().getUid();
+        currentuser.setText(mCurrentUserId);
 
         chat = (Button) findViewById(R.id.chat);
 
@@ -76,6 +82,14 @@ public class MainActivity extends AppCompatActivity {
                        // String question = childSnapshot.getValue("Users");
 
                         Intent intent = new Intent(MainActivity.this,ChattingSection.class);
+
+                        /*if (childSnapshot.getKey()==mCurrentUserId){
+
+                            childSnapshot.getKey();
+
+                        }*/
+
+
 
                         Bundle bundle = new Bundle();
                         bundle.putString("randomid",childSnapshot.getKey());

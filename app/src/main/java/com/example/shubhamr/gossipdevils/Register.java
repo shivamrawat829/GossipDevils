@@ -26,9 +26,9 @@ public class Register extends AppCompatActivity {
 
     String[] gender_array, countries_array;
     AutoCompleteTextView autoCompleteTextView1, autoCompleteTextView2;
-   private Button register;
-   private EditText gender, country;
-   private String genderdata, countrydata;
+    private Button register;
+    private EditText gender, country;
+    private String genderdata, countrydata;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
 
@@ -49,10 +49,10 @@ public class Register extends AppCompatActivity {
 
         // AutoCompleteTextField for Countries Names
         country = (AutoCompleteTextView) findViewById(R.id.country);
-        autoCompleteTextView1 = (AutoCompleteTextView) findViewById(R.id.country);
+        autoCompleteTextView2 = (AutoCompleteTextView) findViewById(R.id.country);
         countries_array = getResources().getStringArray(R.array.countries_array);
         ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, countries_array);
-        autoCompleteTextView1.setAdapter(adapter2);
+        autoCompleteTextView2.setAdapter(adapter2);
 
         register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -66,7 +66,6 @@ public class Register extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful())
                         {
-
                             FirebaseUser current_user = FirebaseAuth.getInstance().getCurrentUser();
                             String uid = current_user.getUid();
 
@@ -79,9 +78,6 @@ public class Register extends AppCompatActivity {
                             usermap.put("Country", countrydata);
 
                             mDatabase.setValue(usermap);
-
-
-
 
                            Toast.makeText(getApplicationContext(),"Successfull",Toast.LENGTH_LONG).show();
 

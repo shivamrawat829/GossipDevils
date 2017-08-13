@@ -1,20 +1,15 @@
 package com.example.shubhamr.gossipdevils;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,10 +31,16 @@ public class ChattingSection extends AppCompatActivity {
     EditText message;
     ImageButton send,upload;
     MenuItem item;
+<<<<<<< HEAD
     // Our created menu to use
     private Menu mymenu;
     String randomid,mCurrentUserId;
+=======
+    String randomid;
+>>>>>>> 673bb8fcbcd7763b77935549525c83f1925bb385
     TextView random;
+    // Our created menu to use
+    private Menu mymenu;
     private FirebaseAuth mAuth;
     private DatabaseReference mRootRef;
  private RecyclerView mmessage_list;
@@ -73,6 +74,7 @@ random = (TextView) findViewById(R.id.randomid);
 
         mAuth = FirebaseAuth.getInstance();
 
+<<<<<<< HEAD
         mCurrentUserId = mAuth.getCurrentUser().getUid();
         //random = (TextView) findViewById(R.id.random);
 //        random.setText(randomid);
@@ -90,6 +92,8 @@ random = (TextView) findViewById(R.id.randomid);
 
 mmessage_list.setAdapter(mAdapter);
 
+=======
+>>>>>>> 673bb8fcbcd7763b77935549525c83f1925bb385
         message = (EditText) findViewById(R.id.messagetext);
         send = (ImageButton) findViewById(R.id.send);
         upload = (ImageButton) findViewById(R.id.upload);

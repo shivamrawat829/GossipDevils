@@ -31,13 +31,14 @@ public class ChattingSection extends AppCompatActivity {
     EditText message;
     ImageButton send,upload;
     MenuItem item;
-<<<<<<< HEAD
-    // Our created menu to use
-    private Menu mymenu;
-    String randomid,mCurrentUserId;
-=======
+
+
+
+
+    String mCurrentUserId;
+
     String randomid;
->>>>>>> 673bb8fcbcd7763b77935549525c83f1925bb385
+
     TextView random;
     // Our created menu to use
     private Menu mymenu;
@@ -53,8 +54,15 @@ public class ChattingSection extends AppCompatActivity {
         setContentView(R.layout.activity_chatting_section);
 
 
-        mRootRef = FirebaseDatabase.getInstance().getReference();
+        if (getIntent().getBooleanExtra("EXIT", false)) {
+            finish();
+        }
+
 random = (TextView) findViewById(R.id.randomid);
+
+
+        checkonline();
+
       /*  try {
             loadMessages();
         }
@@ -74,7 +82,7 @@ random = (TextView) findViewById(R.id.randomid);
 
         mAuth = FirebaseAuth.getInstance();
 
-<<<<<<< HEAD
+
         mCurrentUserId = mAuth.getCurrentUser().getUid();
         //random = (TextView) findViewById(R.id.random);
 //        random.setText(randomid);
@@ -92,8 +100,7 @@ random = (TextView) findViewById(R.id.randomid);
 
 mmessage_list.setAdapter(mAdapter);
 
-=======
->>>>>>> 673bb8fcbcd7763b77935549525c83f1925bb385
+
         message = (EditText) findViewById(R.id.messagetext);
         send = (ImageButton) findViewById(R.id.send);
         upload = (ImageButton) findViewById(R.id.upload);
@@ -131,17 +138,28 @@ mmessage_list.setAdapter(mAdapter);
 
     }
 
+    private void checkonline() {
+
+        mAuth = FirebaseAuth.getInstance();
+        mRootRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
+
+        mRootRef.child("Online").setValue(true);
+
+    }
+
 
 
     private void loadMessages() {
 
-
+        mRootRef = FirebaseDatabase.getInstance().getReference();
         mRootRef.child("messages").child(mCurrentUserId).child(randomid).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(DataSnapshot dataSnapshot, String s) {
                 Messages message = dataSnapshot.getValue(Messages.class);
                 messagesList.add(message);
                 mAdapter.notifyDataSetChanged();
+
+                mmessage_list.scrollToPosition(messagesList.size()-1);
             }
 
 
@@ -166,11 +184,13 @@ mmessage_list.setAdapter(mAdapter);
 
             }
         });
+
+
     }
 
     private void sendmessage() {
 
-
+        mRootRef = FirebaseDatabase.getInstance().getReference();
 
         String realmessage = message.getText().toString();
 
@@ -242,6 +262,7 @@ mmessage_list.setAdapter(mAdapter);
     public void onBackPressed() {
        // mRootRef.child("messages").child(mCurrentUserId).removeValue();
        // mRootRef.child("messages").child(randomid).removeValue();
+
         super.onBackPressed();
     }
 }

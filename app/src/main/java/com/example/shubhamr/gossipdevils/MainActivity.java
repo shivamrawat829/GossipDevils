@@ -1,5 +1,6 @@
 package com.example.shubhamr.gossipdevils;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -18,17 +19,53 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
     Button chat;
     private FirebaseAuth mAuth;
-    private FirebaseAuth.AuthStateListener mAuthListener;
-String mCurrentUserId;
+    public  String gemder,country;
+    Boolean online,iamconnected;
+    ProgressDialog progressDialog;
+    DataSnapshot childSnapshot;
+    String otheruserid,Whomiconnectedto;
     private DatabaseReference mDatabase;
-     public DataSnapshot f;
+    FirebaseUser mCurrentUserId;
+    String curentuserid;
+
     private String TAG="MainActivity";
     TextView currentuser;
+    @Override
+    protected void onPostResume() {
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
+
+        mDatabase.child("Online").setValue(false);
+        super.onResume();
+        super.onPostResume();
+    }
+
+    @Override
+    protected void onResume() {
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
+
+        mDatabase.child("Online").setValue(false);
+        super.onResume();
+
+
+        imNotConnected();
+
+    }
+
+    private void imNotConnected() {
+        curentuserid= mAuth.getCurrentUser().getUid();
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(curentuserid).child("isconnected");
+        mDatabase.setValue(false);
+    }
+
+
 
     @Override
     protected void onStart() {
@@ -48,67 +85,285 @@ String mCurrentUserId;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+
         currentuser = (TextView) findViewById(R.id.currentuser);
 
         mAuth = FirebaseAuth.getInstance();
-        mCurrentUserId = mAuth.getCurrentUser().getUid();
-        currentuser.setText(mCurrentUserId);
+
+
+        mCurrentUserId = mAuth.getCurrentUser();
+       // currentuser.setText(mCurrentUserId);
+
+        if (mCurrentUserId==null){
+            Intent intent = new Intent(MainActivity.this, Register.class);
+            startActivity(intent);
+            finish();
+        }
+
 
         chat = (Button) findViewById(R.id.chat);
+
+
+
 
         chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
-                mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        int questionCount = (int) dataSnapshot.getChildrenCount();
 
-                        Log.d(TAG, "onDataChange: "+questionCount);
-                        Toast.makeText(getApplicationContext(),"valus is "+questionCount,Toast.LENGTH_LONG).show();
-                      //  int rand = random.nextInt(questionCount);
-                        Iterator itr = dataSnapshot.getChildren().iterator();
-
-                       Random no = new Random();
-                        int rndNum = no.nextInt(questionCount-1) + 1;
-
-                        for(int i = 0; i < rndNum; i++) {
-                            itr.next();
-                        }
-                        DataSnapshot childSnapshot = (DataSnapshot) itr.next();
-                      //  Toast.makeText(getApplicationContext(),"value of childsnapshot "+childSnapshot.getKey(),Toast.LENGTH_LONG).show();
-                       // String question = childSnapshot.getValue("Users");
-
-                        Intent intent = new Intent(MainActivity.this,ChattingSection.class);
-
-                        /*if (childSnapshot.getKey()==mCurrentUserId){
-
-                            childSnapshot.getKey();
-
-                        }*/
+                checkifiamconnected();
 
 
+                progressDialog.setMessage("Wait");
+                progressDialog.show();
 
-                        Bundle bundle = new Bundle();
-                        bundle.putString("randomid",childSnapshot.getKey());
-                        intent.putExtras(bundle);
-                        startActivity(intent);
+                isonline();
 
-                    }
+             randomiddta();
 
-
-
-
-
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
             }
         });
     }
+
+    private void checkifiamconnected() {
+        curentuserid= mAuth.getCurrentUser().getUid();
+
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(curentuserid).child("isconnected");
+
+
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                iamconnected  = (Boolean) dataSnapshot.getValue();
+                Toast.makeText(getApplicationContext(),"I am connected value"+iamconnected,Toast.LENGTH_LONG).show();
+
+                if (iamconnected==true)
+
+                {
+
+                    checkwhomiconnedtedto();
+
+                }
+                else {
+                    Toast.makeText(getApplicationContext(),"value is"+iamconnected,Toast.LENGTH_LONG).show();
+                }
+
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    private void checkwhomiconnedtedto() {
+
+        curentuserid= mAuth.getCurrentUser().getUid();
+
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(curentuserid).child("connectedto");
+
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Whomiconnectedto  = (String) dataSnapshot.getValue();
+
+
+                Intent intent = new Intent(MainActivity.this,ChattingSection.class);
+                Bundle bundle = new Bundle();
+                bundle.putString("randomid", Whomiconnectedto);
+                intent.putExtras(bundle);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                finishAffinity();
+                startActivity(intent);
+                finish();
+
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+
+    }
+
+    private void randomiddta() {
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users");
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int questionCount = (int) dataSnapshot.getChildrenCount();
+
+                Log.d(TAG, "onDataChange: "+questionCount);
+                //     Toast.makeText(getApplicationContext(),"value is "+questionCount,Toast.LENGTH_LONG).show();
+
+                Iterator itr = dataSnapshot.getChildren().iterator();
+
+                Random no = new Random();
+                int rndNum = no.nextInt(questionCount-1) + 1;
+
+                for(int i = 0; i < rndNum; i++) {
+                    itr.next();
+                }
+                childSnapshot = (DataSnapshot) itr.next();
+
+                otheruserid = childSnapshot.getKey();
+                Toast.makeText(getApplicationContext(),"other user id is "+otheruserid,Toast.LENGTH_LONG).show();
+
+                checkcountry();
+                checkgender();
+                checkavailablity();
+
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void checkavailablity() {
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(otheruserid).child("Country");
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                country = (String) dataSnapshot.getValue();
+
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+
+
+
+    private void checkgender() {
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(otheruserid).child("Gender");
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                gemder = (String) dataSnapshot.getValue();
+
+
+                Toast.makeText(getApplicationContext(), "online is"+online, Toast.LENGTH_LONG).show();
+                if (Objects.equals(gemder, "Male")&&Objects.equals(country, "India")
+                        &&online==true&& !Objects.equals(otheruserid, mAuth.getCurrentUser().getUid())) {
+
+                    Intent intent = new Intent(MainActivity.this,ChattingSection.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putString("randomid", otheruserid);
+                    intent.putExtra("EXIT", true);
+                    intent.putExtras(bundle);
+
+
+
+
+                    otherisConnected();
+                    iamconnected();
+                    iamconnectedto();
+                    otherisconnectedtome();
+
+
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    finishAffinity();
+                    finish();
+                    startActivity(intent);
+
+                    progressDialog.dismiss();
+
+                } else
+                {
+
+                    checkifiamconnected();
+                    randomiddta();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    private void otherisconnectedtome() {
+        curentuserid= mAuth.getCurrentUser().getUid();
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(otheruserid).child("connectedto");
+
+        mDatabase.setValue(curentuserid);
+    }
+
+
+    private void iamconnected() {
+       curentuserid= mAuth.getCurrentUser().getUid();
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(curentuserid).child("isconnected");
+        mDatabase.setValue(true);
+    }
+
+
+    private void iamconnectedto() {
+        curentuserid= mAuth.getCurrentUser().getUid();
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(curentuserid).child("connectedto");
+
+        mDatabase.setValue(otheruserid);
+
+
+    }
+
+
+    private void otherisConnected() {
+
+
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(otheruserid).child("isconnected");
+        mDatabase.setValue(true);
+
+
+    }
+
+    private void checkcountry() {
+
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(otheruserid).child("Online");
+        mDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                online  = (Boolean) dataSnapshot.getValue();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+
+
+    private void isonline() {
+
+        mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
+
+        mDatabase.child("Online").setValue(true);
+
+    }
+
 }

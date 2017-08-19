@@ -27,17 +27,18 @@ public class Register extends AppCompatActivity {
 
     String[] gender_array, countries_array;
     AutoCompleteTextView autoCompleteTextView1, autoCompleteTextView2;
+    ProgressDialog progressDialog;
     private Button register;
     private EditText gender, country;
     private String genderdata, countrydata;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
-    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+
 
         mAuth = FirebaseAuth.getInstance();
         progressDialog = new ProgressDialog(this);

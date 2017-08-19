@@ -3,15 +3,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#3f9dda"
     tools:context="com.example.shubhamr.gossipdevils.MainActivity">
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/currentuser"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="8dp"
+        android:src="@drawable/icon" />
+
 
     <Button
         android:id="@+id/chat"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="215dp"
+        android:layout_marginLeft="110dp"
+        android:layout_marginTop="335dp"
+        android:background="@drawable/back"
         android:text="@string/main_button" />
 
     <TextView

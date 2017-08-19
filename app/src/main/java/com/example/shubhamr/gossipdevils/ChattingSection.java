@@ -1,5 +1,6 @@
 package com.example.shubhamr.gossipdevils;
 
+import android.app.ActionBar;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -10,13 +11,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -30,53 +30,42 @@ import java.util.Map;
 
 public class ChattingSection extends AppCompatActivity {
 
+    private final List<Messages> messagesList = new ArrayList<>();
     EditText message;
     ImageButton send,upload;
     MenuItem item;
-
-
-
-
     String mCurrentUserId;
-
     String randomid;
-
     TextView random;
+    AlertDialog.Builder builder;
     // Our created menu to use
     private Menu mymenu;
     private FirebaseAuth mAuth;
     private DatabaseReference mRootRef;
- private RecyclerView mmessage_list;
-    private final List<Messages> messagesList = new ArrayList<>();
- private LinearLayoutManager mLinearLayout;
+    private RecyclerView mmessage_list;
+    private LinearLayoutManager mLinearLayout;
     private MessageAdapter mAdapter;
-    AlertDialog.Builder builder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.activity_chatting_section);
+        ActionBar actionBar = getActionBar();
+        actionBar.show();
+        getSupportActionBar().show();
 
-
-
-random = (TextView) findViewById(R.id.randomid);
-
+        random = (TextView) findViewById(R.id.randomid);
 
         checkonline();
-
-
         Bundle bundle=getIntent().getExtras();
         randomid = bundle.getString("randomid");
         random.setText(randomid);
 
         mAuth = FirebaseAuth.getInstance();
-
-
         mCurrentUserId = mAuth.getCurrentUser().getUid();
         //random = (TextView) findViewById(R.id.random);
 //        random.setText(randomid);
-
-
 
         mAdapter = new MessageAdapter(messagesList);
         mmessage_list = (RecyclerView) findViewById(R.id.message_list);
@@ -84,28 +73,17 @@ random = (TextView) findViewById(R.id.randomid);
         mLinearLayout = new LinearLayoutManager(this);
         mmessage_list.setHasFixedSize(true);
         mmessage_list.setLayoutManager(mLinearLayout);
-
-
-
-mmessage_list.setAdapter(mAdapter);
-
+        mmessage_list.setAdapter(mAdapter);
 
         message = (EditText) findViewById(R.id.messagetext);
         send = (ImageButton) findViewById(R.id.send);
-        upload = (ImageButton) findViewById(R.id.upload);
 
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 sendmessage();
-
             }
         });
-
-
-
-
 
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,22 +99,14 @@ mmessage_list.setAdapter(mAdapter);
         rotation.setRepeatCount(Animation.INFINITE);
         iv.startAnimation(rotation);
         item.setActionView(iv);*/
-
         loadMessages();
-
-
     }
 
     private void checkonline() {
-
         mAuth = FirebaseAuth.getInstance();
         mRootRef = FirebaseDatabase.getInstance().getReference().child("Users").child(mAuth.getCurrentUser().getUid());
-
         mRootRef.child("Online").setValue(true);
-
     }
-
-
 
     private void loadMessages() {
 
@@ -147,11 +117,8 @@ mmessage_list.setAdapter(mAdapter);
                 Messages message = dataSnapshot.getValue(Messages.class);
                 messagesList.add(message);
                 mAdapter.notifyDataSetChanged();
-
                 mmessage_list.scrollToPosition(messagesList.size()-1);
             }
-
-
 
             @Override
             public void onChildChanged(DataSnapshot dataSnapshot, String s) {
@@ -173,7 +140,6 @@ mmessage_list.setAdapter(mAdapter);
 
             }
         });
-
 
     }
 
@@ -210,9 +176,7 @@ mmessage_list.setAdapter(mAdapter);
             }
         });
 
-
         message.setText("");
-
     }
 
     @Override
@@ -235,7 +199,6 @@ mmessage_list.setAdapter(mAdapter);
         return super.onOptionsItemSelected(item);
     }
 
-
     public void resetUpdating() {
         // Get our refresh item from the menu
         MenuItem m = mymenu.findItem(R.id.action_refresh);
@@ -246,11 +209,8 @@ mmessage_list.setAdapter(mAdapter);
         }
     }
 
-
     @Override
     public void onBackPressed() {
-
-
 
         builder.setTitle("Confirmation")
                 .setMessage("Do you really want to send panic with your location?")

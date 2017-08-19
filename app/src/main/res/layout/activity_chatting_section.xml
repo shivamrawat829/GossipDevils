@@ -4,18 +4,45 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:padding="2dp"
+    android:background="@drawable/bg"
+    android:padding="3dp"
     tools:context="com.example.shubhamr.gossipdevils.ChattingSection">
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="0.80">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/message_list"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_weight="0.75"
+        android:soundEffectsEnabled="true" />
+
+        <!-- <TextView
+             android:id="@+id/randomid"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_below="@+id/message_list"
+             android:layout_centerHorizontal="true"
+             android:text="TextView" />
+     -->
+    </LinearLayout>
 
     <EditText
         android:id="@+id/messagetext"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:ems="10"
-        android:hint="Type ur message"
-        android:inputType="none"
+        android:layout_toLeftOf="@+id/send"
+        android:hint="Type your message"
+        android:paddingLeft="5dp"
         android:visibility="visible" />
 
     <ImageButton
@@ -24,31 +51,6 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
-        app:srcCompat="@android:drawable/checkbox_on_background" />
-
-    <ImageButton
-        android:id="@+id/upload"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentStart="true"
-        app:srcCompat="@android:drawable/ic_menu_upload" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/message_list"
-        android:layout_width="match_parent"
-        android:layout_height="400dp"
-        android:soundEffectsEnabled="true"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
-
-    <TextView
-        android:id="@+id/randomid"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/message_list"
-        android:layout_centerHorizontal="true"
-        android:text="TextView" />
-
+        app:srcCompat="@drawable/ic_send_black_24dp" />
 
 </RelativeLayout>

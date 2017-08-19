@@ -1,5 +1,6 @@
 package com.example.shubhamr.gossipdevils;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -31,6 +32,7 @@ public class Register extends AppCompatActivity {
     private String genderdata, countrydata;
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,7 @@ public class Register extends AppCompatActivity {
         setContentView(R.layout.activity_register);
 
         mAuth = FirebaseAuth.getInstance();
+        progressDialog = new ProgressDialog(this);
         register = (Button) findViewById(R.id.register);
 
         // AutoCompleteTextField for Gender
@@ -57,6 +60,10 @@ public class Register extends AppCompatActivity {
         register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                progressDialog.setMessage("Please wait...");
+                progressDialog.show();
+                progressDialog.setCancelable(false);
 
                 genderdata = gender.getText().toString();
                 countrydata = country.getText().toString();
@@ -83,6 +90,7 @@ public class Register extends AppCompatActivity {
 
                             Intent intent = new Intent(Register.this,MainActivity.class);
                             startActivity(intent);
+                            progressDialog.dismiss();
                         }
                         else {
                             Toast.makeText(getApplicationContext(),"Not Successfull",Toast.LENGTH_LONG).show();

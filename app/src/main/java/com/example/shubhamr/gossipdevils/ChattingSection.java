@@ -1,6 +1,8 @@
 package com.example.shubhamr.gossipdevils;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -48,32 +50,19 @@ public class ChattingSection extends AppCompatActivity {
     private final List<Messages> messagesList = new ArrayList<>();
  private LinearLayoutManager mLinearLayout;
     private MessageAdapter mAdapter;
+    AlertDialog.Builder builder;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatting_section);
 
 
-        if (getIntent().getBooleanExtra("EXIT", false)) {
-            finish();
-        }
 
 random = (TextView) findViewById(R.id.randomid);
 
 
         checkonline();
-
-      /*  try {
-            loadMessages();
-        }
-
-        catch (NullPointerException e1){
-
-            Log.d("Chatting","Null pionter exception");
-            Toast.makeText(getApplicationContext(),"Null pointer",Toast.LENGTH_LONG).show();
-        }*/
-
-
 
 
         Bundle bundle=getIntent().getExtras();
@@ -260,8 +249,29 @@ mmessage_list.setAdapter(mAdapter);
 
     @Override
     public void onBackPressed() {
-       // mRootRef.child("messages").child(mCurrentUserId).removeValue();
-       // mRootRef.child("messages").child(randomid).removeValue();
+
+
+
+        builder.setTitle("Confirmation")
+                .setMessage("Do you really want to send panic with your location?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+
+        mRootRef.child("messages").child(mCurrentUserId).removeValue();
+        mRootRef.child("messages").child(randomid).removeValue();
+        mRootRef.child("Users").child(mCurrentUserId).child("connectedto").removeValue();
+        mRootRef.child("Users").child(randomid).child("connectedto").removeValue();
+        mRootRef.child("Users").child(mCurrentUserId).child("isconnected").setValue(false);
+        mRootRef.child("Users").child(randomid).child("isconnected").setValue(false);
+                    }
+                })
+                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Intent intent = new Intent(LoginSuccess.this,LoginSuccess.class);
+                        //startActivity(intent);
+                    }
+                }).show();
 
         super.onBackPressed();
     }

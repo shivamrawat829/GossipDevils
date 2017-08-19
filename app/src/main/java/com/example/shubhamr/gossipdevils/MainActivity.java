@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         mCurrentUserId = mAuth.getCurrentUser();
-       // currentuser.setText(mCurrentUserId);
+        // currentuser.setText(mCurrentUserId);
 
         if (mCurrentUserId==null){
             Intent intent = new Intent(MainActivity.this, Register.class);
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity {
 
                 isonline();
 
-             randomiddta();
+
 
             }
         });
@@ -147,7 +147,9 @@ public class MainActivity extends AppCompatActivity {
 
                 }
                 else {
+
                     Toast.makeText(getApplicationContext(),"value is"+iamconnected,Toast.LENGTH_LONG).show();
+                    randomiddta();
                 }
 
 
@@ -175,11 +177,11 @@ public class MainActivity extends AppCompatActivity {
 
 
                 Intent intent = new Intent(MainActivity.this,ChattingSection.class);
+                Toast.makeText(getApplicationContext(),"WHom is connected to working",Toast.LENGTH_LONG).show();
                 Bundle bundle = new Bundle();
                 bundle.putString("randomid", Whomiconnectedto);
                 intent.putExtras(bundle);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
                 finishAffinity();
                 startActivity(intent);
                 finish();
@@ -282,8 +284,7 @@ public class MainActivity extends AppCompatActivity {
                     otherisconnectedtome();
 
 
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
                     finishAffinity();
                     finish();
                     startActivity(intent);
@@ -294,7 +295,7 @@ public class MainActivity extends AppCompatActivity {
                 {
 
                     checkifiamconnected();
-                    randomiddta();
+
                 }
             }
 
@@ -314,7 +315,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void iamconnected() {
-       curentuserid= mAuth.getCurrentUser().getUid();
+        curentuserid= mAuth.getCurrentUser().getUid();
         mDatabase = FirebaseDatabase.getInstance().getReference().child("Users").child(curentuserid).child("isconnected");
         mDatabase.setValue(true);
     }

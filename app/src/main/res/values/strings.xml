@@ -8,6 +8,10 @@
     <string name="main_button">Ready to chat</string>
     <string name="action_settings">Settings</string>
     <string name="refresh_button">Refresh</string>
+    <string name="title">On Your Marks</string>
+    <string name="chat_sec_hint">Type your message</string>
+
+
     <!--> String Arrays for Country and Gender <-->
     <string-array name="gender_array">
         <item>Male</item>

@@ -41,8 +41,11 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_toLeftOf="@+id/send"
-        android:hint="Type your message"
+        android:background="@drawable/chat_section"
+        android:hint="@string/chat_sec_hint"
+        android:padding="5dp"
         android:paddingLeft="5dp"
+        android:textColor="@color/black"
         android:visibility="visible" />
 
     <ImageButton
@@ -51,6 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
+        android:padding="5dp"
         app:srcCompat="@drawable/ic_send_black_24dp" />
 
 </RelativeLayout>

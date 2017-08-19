@@ -182,9 +182,9 @@ public class MainActivity extends AppCompatActivity {
                 bundle.putString("randomid", Whomiconnectedto);
                 intent.putExtras(bundle);
 
-                finishAffinity();
                 startActivity(intent);
                 finish();
+
 
 
 
@@ -285,9 +285,10 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-                    finishAffinity();
-                    finish();
+
+
                     startActivity(intent);
+                    finish();
 
                     progressDialog.dismiss();
 

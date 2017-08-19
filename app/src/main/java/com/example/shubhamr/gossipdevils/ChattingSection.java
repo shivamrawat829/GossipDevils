@@ -36,7 +36,8 @@ public class ChattingSection extends AppCompatActivity {
     MenuItem item;
     String mCurrentUserId;
     String randomid;
-    TextView random;
+    TextView otherid;
+
     AlertDialog.Builder builder;
     // Our created menu to use
     private Menu mymenu;
@@ -52,15 +53,16 @@ public class ChattingSection extends AppCompatActivity {
         getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
         setContentView(R.layout.activity_chatting_section);
         ActionBar actionBar = getActionBar();
-        actionBar.show();
-        getSupportActionBar().show();
+   //     actionBar.show();
+      // getSupportActionBar().show();
 
-        random = (TextView) findViewById(R.id.randomid);
+
+
 
         checkonline();
         Bundle bundle=getIntent().getExtras();
         randomid = bundle.getString("randomid");
-        random.setText(randomid);
+
 
         mAuth = FirebaseAuth.getInstance();
         mCurrentUserId = mAuth.getCurrentUser().getUid();
@@ -85,12 +87,7 @@ public class ChattingSection extends AppCompatActivity {
             }
         });
 
-        upload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
 
-            }
-        });
 
         // Do animation start
       /*  LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -212,11 +209,6 @@ public class ChattingSection extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        builder.setTitle("Confirmation")
-                .setMessage("Do you really want to send panic with your location?")
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-
 
         mRootRef.child("messages").child(mCurrentUserId).removeValue();
         mRootRef.child("messages").child(randomid).removeValue();
@@ -224,14 +216,10 @@ public class ChattingSection extends AppCompatActivity {
         mRootRef.child("Users").child(randomid).child("connectedto").removeValue();
         mRootRef.child("Users").child(mCurrentUserId).child("isconnected").setValue(false);
         mRootRef.child("Users").child(randomid).child("isconnected").setValue(false);
-                    }
-                })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Intent intent = new Intent(LoginSuccess.this,LoginSuccess.class);
-                        //startActivity(intent);
-                    }
-                }).show();
+        mRootRef.child("Users").child(mCurrentUserId).child("Online").setValue(false);
+        mRootRef.child("Users").child(randomid).child("Online").setValue(false);
+
+
 
         super.onBackPressed();
     }
